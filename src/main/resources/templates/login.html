@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title> Exchange Rate App : Login</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <style type="text/css">
+        body {
+	       padding-top: 50px;
+	       padding-bottom: 20px;
+        }
+    </style>
+</head>
+    <body>
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <form th:action="@{/login}" method="post">
+            <div><label> User Name/Email ID : <input class="form-control" required="" type="text" name="username"/> </label></div>
+            <div><label> Password: <input class="form-control" required="" type="password" name="password"/> </label></div>
+            <div><input type="submit" class="btn btn-success navbar-center" style="margin-top: 10px;" value="Sign In"/></div>
+            <div sec:authorize="!isAuthenticated()">
+					<a href="/registration" class="btn btn-success navbar-center" style="margin-top: 10px;">Register</a>
+			</div>
+        </form>
+        <!-- 
+         
+	        <div sec:authorize="!isAuthenticated()">
+						<a href="/registration" class="btn btn-success navbar-right" style="margin-top: 10px;">Register</a>
+			</div>
+		-->
+    </body>
+</html>

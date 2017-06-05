@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta charset="utf-8" />
+			<title>Currency Exchange Rate  : Home</title>
+			
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+			<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+			
+			<style type="text/css">
+				body {
+					padding-top: 50px;
+					padding-bottom: 20px;
+				}
+			</style>
+			
+		</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
+			
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" 
+				    aria-expanded="false" aria-controls="navbar">
+				    
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				
+				<a class="navbar-brand" th:href="@{/home}">Exchange Rate Home</a>
+			</div>
+
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+					   <a href="#" th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</a>
+					</li>
+					<li>
+						<form th:action="@{/logout}" method="post" class="form-horizontal" role="form" style="padding-top: 11px;">
+							<input type="submit" value="Logout" class="btn btn-default btn-sm" />
+						</form>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+		</nav>
+		<!-- <p th:text="'Hello, ' + ${lastName} + ' ' + ${lastName} + '!'" />
+		
+		  <p th:text="'Response, ' + ${response.base} + ' ' + '!'" />
+	   
+	   	<p th:text="'Hello, ' + ${testObject} + '!'" />
+	    <p th:text="'Hello, ' + ${tester} + '!'" />
+	    -->
+	    <div class="container">
+	    	<div class="container-fluid vcenter">
+	    	
+	    		<div th:if="${responseData.message != null}">
+	    			<div class="panel-heading">Internal Error : <input type="text" th:text="responseData.message" /></div>
+	    		</div>
+	    		<div th:if="${responseData.message == null}">
+	    		<div class="row">
+	    			<div class="col-sm-6">
+	    				<div class="panel panel-default">
+	    					<div class="panel-body">
+	    						
+	    						<form action="#" th:action="@{/home}" th:object="${responseData}" method="post" class="form-horizontal" role="form">
+	    							
+							<div class="panel-heading">
+								<strong class="">Exchange Rate as on: <input type="text" th:field="*{queriedDate}" /> </strong><br></br>
+								<strong class="">For Currency: <input type="text" th:field="*{base}"/> </strong>
+								<!-- <strong class="">Exchange Rate as on <input type="text" th:text="*{queriedDate}"/> for Base Currency : <input type="text" th:text="*{base}"/></strong> -->
+							</div>
+							<div class="panel-heading">
+								<strong class="">Query for Date (yyyy-MM-dd): <input type="text" 
+                          					 th:field="*{exchangeRateDate}"/>
+                          		</strong>
+                          					 <div th:if="${#fields.hasErrors('exchangeRateDate')}" th:errors="*{exchangeRateDate}">Query Date Error</div>
+							</div>
+							<div class="form-group last">
+									<div class="col-sm-offset-3 col-sm-9">
+										<input name="submit" type="submit" value="Query" class="btn btn-primary btn-sm" />
+										<button type="reset" class="btn btn-default btn-sm">Reset</button>
+									</div>
+							</div>
+							<table class="table table-hover">
+					    		<thead>
+					    			<tr>
+					    				<th> Country </th>
+					    				<th> Exchange Rate </th>
+					    			</tr>
+					    		</thead>
+					    		<tbody>
+					    			<tr th:each="rate : *{supportedCurrencyRatesList}" >
+					    				<td th:text="${rate.currency}"></td>
+					    				<td th:text="${rate.exchangeRate}"></td>
+					    			</tr>
+					    		</tbody>
+					    	</table>
+							
+						</form>
+	    					</div>
+				    	</div>
+			    	</div>
+		    	</div>
+		    		
+		    		<div class="row">
+		    			<strong class="">Recent Queries:</strong>
+		    				<div th:if="${responseData.recentQueriedDates != null}">
+			    				<table class="table table-hover">
+			    					<thead>
+						    			<tr>
+						    				<th> Date </th>
+							    			</tr>
+						    		</thead>
+						    		<tbody>
+						    			<tr th:each="dates : ${responseData.recentQueriedDates}" >
+						    				<td>
+						    				<!--  <td th:text="${dates}"></td>
+						    					<a th:href="@{'/home?date=' + ${dates}}"></a>-->
+						    					<a th:text="${dates}" th:href="@{'/home?date=' + ${dates}}"></a>
+						    				</td>
+						    			</tr>
+						    		</tbody>
+			    				</table>
+		    				</div>
+		    		</div>
+		    		
+		    	</div>
+	    	</div>
+		</div>
+	</body>
+</html>
